@@ -12,7 +12,7 @@ The Hospital Portal operates as a separate web application, accessible only to a
 CompanionMind leverages OLLAMA to structure and manage onboarding data and is built using HTML5 and modern JavaScript (ES6) for rapid prototyping. The system intentionally uses a frontend-first architecture during the prototype phase, with a modular data model that allows seamless migration to secure backend services, cloud storage, and AI-driven analytics in future iterations.
 The platform is ideal for hackathons and early-stage experimentation, demonstrating how AI-assisted data intake, clean system separation, and scalable design principles can be applied to modern digital health solutions.
 
-👥 Team Members (Eligible Individuals)
+👥 Team Members 
 
 - Vaishanvi Varaghavenkatagiri – vv2411@columbia.edu  
 - Ramya Manasa Ancharla– ra3439@columbia.edu 
@@ -28,11 +28,11 @@ The platform is ideal for hackathons and early-stage experimentation, demonstrat
 
 ---
 
-⚙️ Setup Instructions (From Scratch)
+⚙️ Setup Instructions ]\
 
 ### Prerequisites
 - A modern web browser (Chrome / Edge / Firefox)
-- Node.js (optional, if running a local server)
+- Javascript 
 - OLLAMA installed and running locally
 
 ### Step 1: Clone the Repository
