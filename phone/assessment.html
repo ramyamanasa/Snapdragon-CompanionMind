@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHQ-9 Depression Screening - CompanionMind</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        h1 {
+            color: #1a1a1a;
+            font-size: 1.75rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .clinical-badge {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: #2563eb;
+            height: 100%;
+            transition: width 0.3s;
+        }
+
+        .question-card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .question-number {
+            color: #2563eb;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .question-prefix {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .question-text {
+            color: #1a1a1a;
+            font-size: 1.125rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            padding: 15px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .option:hover {
+            border-color: #2563eb;
+            background: #f0f9ff;
+        }
+
+        .option.selected {
+            border-color: #2563eb;
+            background: #dbeafe;
+            font-weight: 600;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-primary:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #666;
+        }
+
+        .results-card {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            display: none;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        .score-label {
+            font-size: 0.75rem;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        .risk-minimal {
+            background: #10b981;
+        }
+
+        .risk-mild {
+            background: #84cc16;
+        }
+
+        .risk-moderate {
+            background: #f59e0b;
+        }
+
+        .risk-severe {
+            background: #ef4444;
+        }
+
+        .result-text {
+            font-size: 1.25rem;
+            color: #1a1a1a;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+
+        .recommendation {
+            background: #f0f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .recommendation h3 {
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+
+        .recommendation p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .crisis-alert {
+            background: #fee;
+            border: 2px solid #ef4444;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .crisis-alert h3 {
+            color: #991b1b;
+            margin-bottom: 10px;
+        }
+
+        .crisis-alert p {
+            color: #7f1d1d;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .crisis-number {
+            background: #dc2626;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 PHQ-9 Depression Screening</h1>
+            <p class="subtitle">This clinical questionnaire helps us understand your mental wellbeing. Your responses
+                are confidential and will help us provide better support.</p>
+            <div class="clinical-badge">Clinically Validated Assessment</div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+
+        <div id="questionnaire">
+            <div class="question-card" id="questionCard">
+                <div class="question-number" id="questionNumber">Question 1 of 9</div>
+                <div class="question-prefix">Over the last 2 weeks, how often have you been bothered by:</div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="optionsContainer"></div>
+
+                <div class="button-container">
+                    <button class="btn-secondary" id="prevBtn" style="display: none;">← Previous</button>
+                    <button class="btn-primary" id="nextBtn" disabled>Next →</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="results-card" id="resultsCard">
+            <h2>Assessment Complete</h2>
+            <div class="score-circle" id="scoreCircle">
+                <div style="font-size: 3rem;">0</div>
+                <div class="score-label">out of 27</div>
+            </div>
+            <div class="result-text" id="resultText"></div>
+            <div class="recommendation" id="recommendation"></div>
+            <div class="crisis-alert" id="crisisAlert" style="display: none;">
+                <h3>⚠️ Immediate Support Available</h3>
+                <p>If you're having thoughts of self-harm or suicide, please reach out immediately:</p>
+                <div class="crisis-number">📞 988 - Suicide & Crisis Lifeline</div>
+                <p style="margin-top: 10px; font-size: 0.9rem;">Available 24/7. Free and confidential.</p>
+            </div>
+            <button class="btn-primary" onclick="continueToApp()" style="width: 100%; max-width: 300px;">Continue to
+                CompanionMind →</button>
+        </div>
+    </div>
+
+    <script>
+        // PHQ-9 Depression Screening (Clinical Standard)
+        const questions = [
+            "Little interest or pleasure in doing things",
+            "Feeling down, depressed, or hopeless",
+            "Trouble falling or staying asleep, or sleeping too much",
+            "Feeling tired or having little energy",
+            "Poor appetite or overeating",
+            "Feeling bad about yourself — or that you are a failure or have let yourself or your family down",
+            "Trouble concentrating on things, such as reading the newspaper or watching television",
+            "Moving or speaking so slowly that other people could have noticed? Or the opposite — being so fidgety or restless that you have been moving around a lot more than usual",
+            "Thoughts that you would be better off dead or of hurting yourself in some way"
+        ];
+
+        const options = [
+            { text: "Not at all", value: 0 },
+            { text: "Several days", value: 1 },
+            { text: "More than half the days", value: 2 },
+            { text: "Nearly every day", value: 3 }
+        ];
+
+        let currentQuestion = 0;
+        let answers = [];
+
+        function renderQuestion() {
+            const questionText = document.getElementById('questionText');
+            const optionsContainer = document.getElementById('optionsContainer');
+            const questionNumber = document.getElementById('questionNumber');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressFill = document.getElementById('progressFill');
+
+            // Update question
+            questionText.textContent = questions[currentQuestion];
+            questionNumber.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+
+            // Update progress
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            progressFill.style.width = progress + '%';
+
+            // Render options
+            optionsContainer.innerHTML = '';
+            options.forEach((option, index) => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                if (answers[currentQuestion] === option.value) {
+                    div.classList.add('selected');
+                }
+                div.textContent = option.text;
+                div.onclick = () => selectOption(option.value);
+                optionsContainer.appendChild(div);
+            });
+
+            // Button states
+            prevBtn.style.display = currentQuestion > 0 ? 'block' : 'none';
+            nextBtn.textContent = currentQuestion === questions.length - 1 ? 'See Results' : 'Next →';
+            nextBtn.disabled = answers[currentQuestion] === undefined;
+        }
+
+        function selectOption(value) {
+            answers[currentQuestion] = value;
+            renderQuestion();
+        }
+
+        function calculateScore() {
+            let total = 0;
+            answers.forEach((answer) => {
+                total += answer;
+            });
+            return total;
+        }
+
+        function showResults() {
+            const score = calculateScore();
+
+            document.getElementById('questionnaire').style.display = 'none';
+            document.getElementById('resultsCard').style.display = 'block';
+
+            const scoreCircle = document.getElementById('scoreCircle');
+            const resultText = document.getElementById('resultText');
+            const recommendation = document.getElementById('recommendation');
+            const crisisAlert = document.getElementById('crisisAlert');
+
+            scoreCircle.querySelector('div').textContent = score;
+
+            // PHQ-9 Clinical Scoring
+            let riskLevel, riskText, recText;
+
+            if (score <= 4) {
+                riskLevel = 'minimal';
+                riskText = 'Minimal Depression';
+                recText = 'Your mental health appears good. CompanionMind will help you maintain positive wellbeing through regular check-ins and emotional support.';
+                scoreCircle.className = 'score-circle risk-minimal';
+            } else if (score <= 9) {
+                riskLevel = 'mild';
+                riskText = 'Mild Depression';
+                recText = 'You may be experiencing mild depressive symptoms. CompanionMind will provide daily support, monitor your mood patterns, and help you stay connected.';
+                scoreCircle.className = 'score-circle risk-mild';
+            } else if (score <= 14) {
+                riskLevel = 'moderate';
+                riskText = 'Moderate Depression';
+                recText = 'You appear to be experiencing moderate depression. We recommend speaking with a healthcare provider. CompanionMind will monitor your wellbeing daily and alert your caregiver if symptoms worsen.';
+                scoreCircle.className = 'score-circle risk-moderate';
+            } else if (score <= 19) {
+                riskLevel = 'moderately-severe';
+                riskText = 'Moderately Severe Depression';
+                recText = 'We strongly recommend contacting a healthcare provider soon. CompanionMind will provide close monitoring and immediately alert your caregiver of concerning changes in your wellbeing.';
+                scoreCircle.className = 'score-circle risk-severe';
+            } else {
+                riskLevel = 'severe';
+                riskText = 'Severe Depression';
+                recText = 'Please contact a healthcare provider as soon as possible. CompanionMind will provide immediate support and notify your caregiver. Your safety and wellbeing are our priority.';
+                scoreCircle.className = 'score-circle risk-severe';
+            }
+
+            // Show crisis alert if question 9 score > 0
+            if (answers[8] > 0) {
+                crisisAlert.style.display = 'block';
+            }
+
+            resultText.textContent = riskText;
+            recommendation.innerHTML = `
+                <h3>Clinical Recommendation</h3>
+                <p>${recText}</p>
+                <p style="margin-top: 15px; font-size: 0.9rem; color: #999;">
+                    <strong>Note:</strong> PHQ-9 score of ${score}/27. This assessment is for screening purposes only and does not replace professional medical advice.
+                </p>
+            `;
+
+            // Save assessment results
+            const assessmentData = {
+                type: 'PHQ-9',
+                score: score,
+                maxScore: 27,
+                riskLevel: riskLevel,
+                completedAt: new Date().toISOString(),
+                answers: answers,
+                suicidalIdeation: answers[8] > 0
+            };
+
+            localStorage.setItem('companionmind_assessment', JSON.stringify(assessmentData));
+
+            // Update user profile
+            const userData = JSON.parse(localStorage.getItem('companionmind_user'));
+            userData.assessmentScore = score;
+            userData.riskLevel = riskLevel;
+            userData.assessmentType = 'PHQ-9';
+            localStorage.setItem('companionmind_user', JSON.stringify(userData));
+        }
+
+        function continueToApp() {
+            window.location.href = 'index.html';
+        }
+
+        // Event listeners
+        document.getElementById('nextBtn').onclick = () => {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        };
+
+        document.getElementById('prevBtn').onclick = () => {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        };
+
+        // Initialize
+        renderQuestion();
+    </script>
+</body>
+
+</html>

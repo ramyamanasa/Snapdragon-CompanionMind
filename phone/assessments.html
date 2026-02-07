@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Assessments - CompanionMind</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        h1 {
+            color: #1a1a1a;
+            font-size: 1.75rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .assessment-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .assessment-card.completed {
+            border-left-color: #10b981;
+            opacity: 0.7;
+        }
+
+        .assessment-card h3 {
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge.completed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .assessment-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .assessment-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .assessment-card li {
+            color: #666;
+            font-size: 0.875rem;
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .assessment-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-success {
+            background: #16a34a;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #15803d;
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #666;
+        }
+
+        .btn-completed {
+            background: #e5e7eb;
+            color: #666;
+            cursor: default;
+        }
+
+        .info-box {
+            background: #f0f9ff;
+            border: 1px solid #bfdbfe;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-box h4 {
+            color: #1e40af;
+            margin-bottom: 10px;
+        }
+
+        .info-box p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .skip-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .skip-link a {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Clinical Assessments</h1>
+            <p class="subtitle">Complete these validated screenings to help us provide better support</p>
+        </div>
+
+        <div class="info-box">
+            <h4>Why These Assessments?</h4>
+            <p>These are clinically validated tools used by healthcare professionals worldwide. They help us understand
+                your mental wellbeing and provide personalized support.</p>
+        </div>
+
+        <div class="assessment-card" id="phq9Card">
+            <h3>
+                PHQ-9 Depression Screening
+                <span class="badge" id="phq9Badge">Required</span>
+            </h3>
+            <p><strong>Patient Health Questionnaire (PHQ-9)</strong> is a validated screening tool for depression
+                symptoms.</p>
+            <ul>
+                <li>9 questions</li>
+                <li>Takes 2-3 minutes</li>
+                <li>Based on DSM-5 criteria</li>
+                <li>Measures mood and interest levels</li>
+            </ul>
+            <button class="btn-primary" onclick="startPHQ9()" id="phq9Btn">Begin PHQ-9 Assessment</button>
+        </div>
+
+        <div class="assessment-card" id="gad7Card">
+            <h3>
+                GAD-7 Anxiety Screening
+                <span class="badge" id="gad7Badge">Required</span>
+            </h3>
+            <p><strong>Generalized Anxiety Disorder (GAD-7)</strong> screens for anxiety symptoms and severity.</p>
+            <ul>
+                <li>7 questions</li>
+                <li>Takes 1-2 minutes</li>
+                <li>Measures worry and nervousness</li>
+                <li>Used in primary care settings</li>
+            </ul>
+            <button class="btn-success" onclick="startGAD7()" id="gad7Btn">Begin GAD-7 Assessment</button>
+        </div>
+
+        <div class="skip-link">
+            <a href="#" onclick="skipToApp(); return false;">Skip assessments for now (complete later from profile)</a>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            checkCompletedAssessments();
+        };
+
+        function checkCompletedAssessments() {
+            const phq9 = localStorage.getItem('companionmind_assessment');
+            const gad7 = localStorage.getItem('companionmind_gad7');
+
+            if (phq9) {
+                document.getElementById('phq9Card').classList.add('completed');
+                document.getElementById('phq9Badge').textContent = '✓ Completed';
+                document.getElementById('phq9Badge').classList.add('completed');
+                document.getElementById('phq9Btn').textContent = 'Retake Assessment';
+                document.getElementById('phq9Btn').classList.remove('btn-primary');
+                document.getElementById('phq9Btn').classList.add('btn-secondary');
+            }
+
+            if (gad7) {
+                document.getElementById('gad7Card').classList.add('completed');
+                document.getElementById('gad7Badge').textContent = '✓ Completed';
+                document.getElementById('gad7Badge').classList.add('completed');
+                document.getElementById('gad7Btn').textContent = 'Retake Assessment';
+                document.getElementById('gad7Btn').classList.remove('btn-success');
+                document.getElementById('gad7Btn').classList.add('btn-secondary');
+            }
+
+            if (phq9 && gad7) {
+                const skipLink = document.querySelector('.skip-link');
+                skipLink.innerHTML = '<button class="btn-primary" style="max-width: 300px; margin: 0 auto; display: block;" onclick="completeOnboarding()">Complete Setup & Continue →</button>';
+            }
+        }
+
+        function startPHQ9() {
+            window.location.href = 'assessment.html';
+        }
+
+        function startGAD7() {
+            window.location.href = 'gad7.html';
+        }
+
+        function skipToApp() {
+            if (confirm('You can complete these assessments later from your profile. Continue to app?')) {
+                window.location.href = 'index.html';
+            }
+        }
+
+        function completeOnboarding() {
+            alert('Setup complete! Welcome to CompanionMind.');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAD-7 Anxiety Screening - CompanionMind</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        
+        h1 {
+            color: #1a1a1a;
+            font-size: 1.75rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .clinical-badge {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+        
+        .progress-bar {
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: #16a34a;
+            height: 100%;
+            transition: width 0.3s;
+        }
+        
+        .question-card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .question-number {
+            color: #16a34a;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .question-prefix {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        
+        .question-text {
+            color: #1a1a1a;
+            font-size: 1.125rem;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            padding: 15px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+        
+        .option:hover {
+            border-color: #16a34a;
+            background: #f0fdf4;
+        }
+        
+        .option.selected {
+            border-color: #16a34a;
+            background: #dcfce7;
+            font-weight: 600;
+        }
+        
+        .button-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #16a34a;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #15803d;
+        }
+        
+        .btn-primary:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+        }
+        
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #666;
+        }
+        
+        .results-card {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            display: none;
+        }
+        
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .score-number {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+        
+        .score-label {
+            font-size: 0.75rem;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+        
+        .anxiety-minimal { background: #10b981; }
+        .anxiety-mild { background: #84cc16; }
+        .anxiety-moderate { background: #f59e0b; }
+        .anxiety-severe { background: #ef4444; }
+        
+        .result-text {
+            font-size: 1.25rem;
+            color: #1a1a1a;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+        
+        .recommendation {
+            background: #f0fdf4;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        
+        .recommendation h3 {
+            color: #166534;
+            margin-bottom: 10px;
+        }
+        
+        .recommendation p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .next-steps {
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            text-align: left;
+        }
+        
+        .next-steps h4 {
+            color: #1e40af;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        
+        .next-steps p {
+            color: #666;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 GAD-7 Anxiety Screening</h1>
+            <p class="subtitle">This questionnaire measures anxiety symptoms over the past 2 weeks.</p>
+            <div class="clinical-badge">Clinically Validated Assessment</div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+        
+        <div id="questionnaire">
+            <div class="question-card">
+                <div class="question-number" id="questionNumber">Question 1 of 7</div>
+                <div class="question-prefix">Over the last 2 weeks, how often have you been bothered by:</div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="optionsContainer"></div>
+                
+                <div class="button-container">
+                    <button class="btn-secondary" id="prevBtn" style="display: none;" onclick="previousQuestion()">← Previous</button>
+                    <button class="btn-primary" id="nextBtn" disabled onclick="nextQuestion()">Next →</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="results-card" id="resultsCard">
+            <h2>Assessment Complete</h2>
+            <div class="score-circle" id="scoreCircle">
+                <div class="score-number">0</div>
+                <div class="score-label">out of 21</div>
+            </div>
+            <div class="result-text" id="resultText"></div>
+            <div class="recommendation" id="recommendation"></div>
+            <div class="next-steps" id="nextSteps"></div>
+            <button class="btn-primary" onclick="continueNext()" style="width: 100%; max-width: 300px; margin-top: 20px;">Continue →</button>
+        </div>
+    </div>
+
+    <script>
+        // GAD-7 Questions
+        const questions = [
+            "Feeling nervous, anxious, or on edge",
+            "Not being able to stop or control worrying",
+            "Worrying too much about different things",
+            "Trouble relaxing",
+            "Being so restless that it's hard to sit still",
+            "Becoming easily annoyed or irritable",
+            "Feeling afraid as if something awful might happen"
+        ];
+        
+        const options = [
+            { text: "Not at all", value: 0 },
+            { text: "Several days", value: 1 },
+            { text: "More than half the days", value: 2 },
+            { text: "Nearly every day", value: 3 }
+        ];
+        
+        let currentQuestion = 0;
+        let answers = [];
+        
+        function renderQuestion() {
+            const questionText = document.getElementById('questionText');
+            const optionsContainer = document.getElementById('optionsContainer');
+            const questionNumber = document.getElementById('questionNumber');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressFill = document.getElementById('progressFill');
+            
+            questionText.textContent = questions[currentQuestion];
+            questionNumber.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+            
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            progressFill.style.width = progress + '%';
+            
+            optionsContainer.innerHTML = '';
+            options.forEach((option) => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                if (answers[currentQuestion] === option.value) {
+                    div.classList.add('selected');
+                }
+                div.textContent = option.text;
+                div.onclick = () => selectOption(option.value);
+                optionsContainer.appendChild(div);
+            });
+            
+            prevBtn.style.display = currentQuestion > 0 ? 'block' : 'none';
+            nextBtn.textContent = currentQuestion === questions.length - 1 ? 'See Results' : 'Next →';
+            nextBtn.disabled = answers[currentQuestion] === undefined;
+        }
+        
+        function selectOption(value) {
+            answers[currentQuestion] = value;
+            renderQuestion();
+        }
+        
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            }
+        }
+        
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        }
+        
+        function calculateScore() {
+            return answers.reduce((sum, val) => sum + val, 0);
+        }
+        
+        function showResults() {
+            const score = calculateScore();
+            
+            document.getElementById('questionnaire').style.display = 'none';
+            document.getElementById('resultsCard').style.display = 'block';
+            
+            const scoreCircle = document.getElementById('scoreCircle');
+            const resultText = document.getElementById('resultText');
+            const recommendation = document.getElementById('recommendation');
+            const nextSteps = document.getElementById('nextSteps');
+            
+            scoreCircle.querySelector('.score-number').textContent = score;
+            
+            // GAD-7 Clinical Scoring
+            let severityLevel, severityText, recText, nextText;
+            
+            if (score <= 4) {
+                severityLevel = 'minimal';
+                severityText = 'Minimal Anxiety';
+                recText = 'Your anxiety levels appear minimal. CompanionMind will help you maintain emotional wellness through regular check-ins and provide support when needed.';
+                nextText = 'Continue to practice self-care and reach out if you notice changes in your anxiety levels.';
+                scoreCircle.className = 'score-circle anxiety-minimal';
+            } else if (score <= 9) {
+                severityLevel = 'mild';
+                severityText = 'Mild Anxiety';
+                recText = 'You may be experiencing mild anxiety symptoms. CompanionMind will provide daily support, relaxation techniques, and help you monitor your anxiety patterns over time.';
+                nextText = 'Consider practicing relaxation techniques like deep breathing, meditation, or gentle exercise.';
+                scoreCircle.className = 'score-circle anxiety-mild';
+            } else if (score <= 14) {
+                severityLevel = 'moderate';
+                severityText = 'Moderate Anxiety';
+                recText = 'You appear to be experiencing moderate anxiety. We recommend speaking with a healthcare provider about your symptoms. CompanionMind will monitor your wellbeing and alert your caregiver if symptoms worsen.';
+                nextText = 'Schedule an appointment with your doctor or a mental health professional to discuss treatment options.';
+                scoreCircle.className = 'score-circle anxiety-moderate';
+            } else {
+                severityLevel = 'severe';
+                severityText = 'Severe Anxiety';
+                recText = 'You are experiencing severe anxiety symptoms. We strongly recommend contacting a healthcare provider as soon as possible. CompanionMind will provide immediate support and notify your caregiver.';
+                nextText = 'Please contact your doctor today. If you\'re in crisis, call 988 (Suicide & Crisis Lifeline) for immediate support.';
+                scoreCircle.className = 'score-circle anxiety-severe';
+            }
+            
+            resultText.textContent = severityText;
+            recommendation.innerHTML = `
+                <h3>Clinical Recommendation</h3>
+                <p>${recText}</p>
+                <p style="margin-top: 15px; font-size: 0.9rem; color: #999;">
+                    <strong>Note:</strong> GAD-7 score of ${score}/21. This assessment is for screening purposes only and does not replace professional medical advice.
+                </p>
+            `;
+            
+            nextSteps.innerHTML = `
+                <h4>Next Steps</h4>
+                <p>${nextText}</p>
+            `;
+            
+            // Save assessment results
+            const gad7Data = {
+                type: 'GAD-7',
+                score: score,
+                maxScore: 21,
+                severityLevel: severityLevel,
+                completedAt: new Date().toISOString(),
+                answers: answers
+            };
+            
+            localStorage.setItem('companionmind_gad7', JSON.stringify(gad7Data));
+            
+            // Update user profile
+            const userData = JSON.parse(localStorage.getItem('companionmind_user') || '{}');
+            userData.gad7Score = score;
+            userData.anxietySeverity = severityLevel;
+            localStorage.setItem('companionmind_user', JSON.stringify(userData));
+        }
+        
+        function continueNext() {
+            // Check if both assessments are done
+            const phq9 = localStorage.getItem('companionmind_assessment');
+            const gad7 = localStorage.getItem('companionmind_gad7');
+            
+            if (phq9 && gad7) {
+                // Both done, go to app
+                window.location.href = 'index.html';
+            } else if (!phq9) {
+                // PHQ-9 not done yet
+                if (confirm('Would you like to complete the PHQ-9 Depression Screening now?')) {
+                    window.location.href = 'assessment.html';
+                } else {
+                    window.location.href = 'index.html';
+                }
+            } else {
+                // All done
+                window.location.href = 'index.html';
+            }
+        }
+        
+        // Initialize
+        renderQuestion();
+    </script>
+</body>
+</html>

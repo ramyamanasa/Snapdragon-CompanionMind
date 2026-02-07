@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lifestyle & Preferences - CompanionMind</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        h1 {
+            color: #1a1a1a;
+            font-size: 1.75rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 15px;
+            background: #fafafa;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            background: white;
+        }
+
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checkbox-option:hover {
+            background: #f0f9ff;
+            border-color: #2563eb;
+        }
+
+        .checkbox-option input {
+            width: auto;
+            margin: 0;
+        }
+
+        .checkbox-option label {
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .help-text {
+            font-size: 0.875rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Lifestyle & Preferences</h1>
+            <p class="subtitle">Tell us about your interests and daily life</p>
+        </div>
+
+        <div class="form-card">
+            <form id="lifestyleForm">
+                <div class="form-group">
+                    <label>Hobbies & Interests</label>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="hobby-reading" value="reading">
+                            <label for="hobby-reading">📚 Reading</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="hobby-gardening" value="gardening">
+                            <label for="hobby-gardening">🌱 Gardening</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="hobby-cooking" value="cooking">
+                            <label for="hobby-cooking">🍳 Cooking</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="hobby-music" value="music">
+                            <label for="hobby-music">🎵 Music</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="hobby-crafts" value="crafts">
+                            <label for="hobby-crafts">✂️ Crafts</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="hobby-walking" value="walking">
+                            <label for="hobby-walking">🚶 Walking</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="hobby-tv" value="tv">
+                            <label for="hobby-tv">📺 TV/Movies</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="hobby-puzzles" value="puzzles">
+                            <label for="hobby-puzzles">🧩 Puzzles</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="hobby-sports" value="sports">
+                            <label for="hobby-sports">⚽ Sports</label>
+                        </div>
+                        <div class="checkbox-option">
+                            <input type="checkbox" id="hobby-pets" value="pets">
+                            <label for="hobby-pets">🐕 Pets</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Other Hobbies</label>
+                    <input type="text" id="hobbyOther" placeholder="Photography, bird watching, knitting...">
+                </div>
+
+                <div class="form-group">
+                    <label>Social Preferences <span class="required">*</span></label>
+                    <select id="socialPref" required>
+                        <option value="">Select...</option>
+                        <option value="very-social">Very social - I love spending time with others</option>
+                        <option value="somewhat-social">Somewhat social - I enjoy occasional company</option>
+                        <option value="selective">Selective - I prefer small groups or one-on-one</option>
+                        <option value="introverted">Introverted - I prefer solitude most of the time</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Living Situation <span class="required">*</span></label>
+                    <select id="livingSituation" required>
+                        <option value="">Select...</option>
+                        <option value="alone">Living alone</option>
+                        <option value="spouse">Living with spouse/partner</option>
+                        <option value="family">Living with family members</option>
+                        <option value="roommate">Living with roommate(s)</option>
+                        <option value="assisted">Assisted living facility</option>
+                        <option value="nursing">Nursing home</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>How often do you see friends or family?</label>
+                    <select id="socialFrequency">
+                        <option value="">Select...</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Several times a week</option>
+                        <option value="biweekly">Once or twice a week</option>
+                        <option value="monthly">A few times a month</option>
+                        <option value="rarely">Rarely</option>
+                        <option value="never">Almost never</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Preferred Communication Method</label>
+                    <select id="commPref">
+                        <option value="">Select...</option>
+                        <option value="in-person">In-person visits</option>
+                        <option value="phone">Phone calls</option>
+                        <option value="video">Video calls</option>
+                        <option value="text">Text/messaging</option>
+                        <option value="email">Email</option>
+                        <option value="mix">Mix of methods</option>
+                    </select>
+                </div>
+
+                <div class="button-container">
+                    <button type="button" class="btn-secondary" onclick="goBack()">← Back</button>
+                    <button type="submit" class="btn-primary">Save & Continue →</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function () {
+            const data = JSON.parse(localStorage.getItem('companionmind_lifestyle') || '{}');
+            if (data.hobbies) {
+                data.hobbies.forEach(hobby => {
+                    const checkbox = document.getElementById(`hobby-${hobby}`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
+            if (data.hobbyOther) document.getElementById('hobbyOther').value = data.hobbyOther;
+            if (data.socialPref) document.getElementById('socialPref').value = data.socialPref;
+            if (data.livingSituation) document.getElementById('livingSituation').value = data.livingSituation;
+            if (data.socialFrequency) document.getElementById('socialFrequency').value = data.socialFrequency;
+            if (data.commPref) document.getElementById('commPref').value = data.commPref;
+        };
+
+        function getHobbies() {
+            const hobbies = [];
+            document.querySelectorAll('.checkbox-grid input:checked').forEach(cb => {
+                hobbies.push(cb.value);
+            });
+            return hobbies;
+        }
+
+        document.getElementById('lifestyleForm').onsubmit = function (e) {
+            e.preventDefault();
+
+            const lifestyleData = {
+                hobbies: getHobbies(),
+                hobbyOther: document.getElementById('hobbyOther').value,
+                socialPref: document.getElementById('socialPref').value,
+                livingSituation: document.getElementById('livingSituation').value,
+                socialFrequency: document.getElementById('socialFrequency').value,
+                commPref: document.getElementById('commPref').value,
+                savedAt: new Date().toISOString()
+            };
+
+            localStorage.setItem('companionmind_lifestyle', JSON.stringify(lifestyleData));
+            alert('Lifestyle preferences saved!');
+
+            window.location.href = 'assessments.html';
+        };
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+
+</html>

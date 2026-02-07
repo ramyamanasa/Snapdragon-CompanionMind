@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Contact - CompanionMind</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        h1 {
+            color: #1a1a1a;
+            font-size: 1.75rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .form-card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .required {
+            color: #ef4444;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 15px;
+            background: #fafafa;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #2563eb;
+            background: white;
+        }
+
+        .help-text {
+            font-size: 0.875rem;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚨 Emergency Contact</h1>
+            <p class="subtitle">Who should we contact in case of emergency?</p>
+        </div>
+
+        <div class="form-card">
+            <form id="emergencyForm">
+                <div class="form-group">
+                    <label>Emergency Contact Name <span class="required">*</span></label>
+                    <input type="text" id="emergencyName" required placeholder="Sarah Thompson">
+                </div>
+
+                <div class="form-group">
+                    <label>Relationship <span class="required">*</span></label>
+                    <select id="emergencyRelation" required>
+                        <option value="">Select...</option>
+                        <option value="daughter">Daughter</option>
+                        <option value="son">Son</option>
+                        <option value="spouse">Spouse/Partner</option>
+                        <option value="sibling">Sibling</option>
+                        <option value="parent">Parent</option>
+                        <option value="friend">Friend</option>
+                        <option value="caregiver">Caregiver</option>
+                        <option value="neighbor">Neighbor</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Primary Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="emergencyPhone" required placeholder="+1 (555) 123-4567">
+                    <p class="help-text">Include country code</p>
+                </div>
+
+                <div class="form-group">
+                    <label>Alternative Contact Number</label>
+                    <input type="tel" id="emergencyPhone2" placeholder="+1 (555) 987-6543">
+                </div>
+
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="emergencyEmail" placeholder="sarah.thompson@email.com">
+                </div>
+
+                <div class="button-container">
+                    <button type="button" class="btn-secondary" onclick="goBack()">← Back</button>
+                    <button type="submit" class="btn-primary">Save & Continue →</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Load existing data if available
+        window.onload = function () {
+            const data = JSON.parse(localStorage.getItem('companionmind_emergency') || '{}');
+            if (data.name) document.getElementById('emergencyName').value = data.name;
+            if (data.relation) document.getElementById('emergencyRelation').value = data.relation;
+            if (data.phone) document.getElementById('emergencyPhone').value = data.phone;
+            if (data.phone2) document.getElementById('emergencyPhone2').value = data.phone2;
+            if (data.email) document.getElementById('emergencyEmail').value = data.email;
+        };
+
+        document.getElementById('emergencyForm').onsubmit = function (e) {
+            e.preventDefault();
+
+            const emergencyData = {
+                name: document.getElementById('emergencyName').value,
+                relation: document.getElementById('emergencyRelation').value,
+                phone: document.getElementById('emergencyPhone').value,
+                phone2: document.getElementById('emergencyPhone2').value,
+                email: document.getElementById('emergencyEmail').value,
+                savedAt: new Date().toISOString()
+            };
+
+            localStorage.setItem('companionmind_emergency', JSON.stringify(emergencyData));
+            alert('Emergency contact saved!');
+
+            // Redirect to next page
+            window.location.href = 'medical.html';
+        };
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+
+</html>
