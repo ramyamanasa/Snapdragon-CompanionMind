@@ -15,11 +15,146 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f7fa;
-            padding: 20px;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
+        /* ==================== HEADER ==================== */
+        .top-header {
+            background: white;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            color: #1a1a1a;
+        }
+
+        .top-header h1 {
+            font-size: 1.125rem;
+            color: #1a1a1a;
+            flex: 1;
+            text-align: center;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+            color: #1a1a1a;
+        }
+
+        /* ==================== SIDE NAV ==================== */
+        .sidenav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .sidenav-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+
+        .sidenav {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100%;
+            background: white;
+            z-index: 999;
+            transition: left 0.3s;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidenav.open {
+            left: 0;
+        }
+
+        .sidenav-header {
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+        }
+
+        .sidenav-header h2 {
+            font-size: 1.25rem;
+            margin-bottom: 5px;
+        }
+
+        .sidenav-header p {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .sidenav-menu {
+            padding: 20px 0;
+        }
+
+        .sidenav-item {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-size: 1rem;
+            color: #1a1a1a;
+            transition: background 0.2s;
+        }
+
+        .sidenav-item:hover {
+            background: #f3f4f6;
+        }
+
+        .sidenav-item.active {
+            background: #dbeafe;
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        .sidenav-icon {
+            font-size: 1.5rem;
+            width: 30px;
+            text-align: center;
+        }
+
+        .sidenav-divider {
+            height: 1px;
+            background: #e5e7eb;
+            margin: 10px 0;
+        }
+
+        /* ==================== MAIN CONTENT ==================== */
         .container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .content-wrapper {
             max-width: 600px;
             margin: 0 auto;
         }
@@ -119,60 +254,118 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🚨 Emergency Contact</h1>
-            <p class="subtitle">Who should we contact in case of emergency?</p>
+    <!-- TOP HEADER -->
+    <div class="top-header">
+        <button class="menu-btn" onclick="toggleSidenav()">☰</button>
+        <h1>Emergency Contact</h1>
+        <button class="back-btn" onclick="goToHome()">✕</button>
+    </div>
+
+    <!-- SIDE NAVIGATION -->
+    <div class="sidenav-overlay" id="sidenavOverlay" onclick="closeSidenav()"></div>
+    <div class="sidenav" id="sidenav">
+        <div class="sidenav-header">
+            <h2>CompanionMind</h2>
+            <p id="userName">Welcome back!</p>
         </div>
+        <div class="sidenav-menu">
+            <button class="sidenav-item" onclick="navigateTo('index.html')">
+                <span class="sidenav-icon">🏠</span>
+                <span>Home</span>
+            </button>
+            <button class="sidenav-item" onclick="navigateTo('index.html')">
+                <span class="sidenav-icon">💬</span>
+                <span>Conversation</span>
+            </button>
+            <button class="sidenav-item" onclick="navigateTo('index.html')">
+                <span class="sidenav-icon">📊</span>
+                <span>My Dashboard</span>
+            </button>
 
-        <div class="form-card">
-            <form id="emergencyForm">
-                <div class="form-group">
-                    <label>Emergency Contact Name <span class="required">*</span></label>
-                    <input type="text" id="emergencyName" required placeholder="Sarah Thompson">
-                </div>
+            <div class="sidenav-divider"></div>
 
-                <div class="form-group">
-                    <label>Relationship <span class="required">*</span></label>
-                    <select id="emergencyRelation" required>
-                        <option value="">Select...</option>
-                        <option value="daughter">Daughter</option>
-                        <option value="son">Son</option>
-                        <option value="spouse">Spouse/Partner</option>
-                        <option value="sibling">Sibling</option>
-                        <option value="parent">Parent</option>
-                        <option value="friend">Friend</option>
-                        <option value="caregiver">Caregiver</option>
-                        <option value="neighbor">Neighbor</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
+            <button class="sidenav-item" onclick="navigateTo('assessments.html')">
+                <span class="sidenav-icon">📋</span>
+                <span>Assessments</span>
+            </button>
+            <button class="sidenav-item active">
+                <span class="sidenav-icon">🚨</span>
+                <span>Emergency Contact</span>
+            </button>
 
-                <div class="form-group">
-                    <label>Primary Phone Number <span class="required">*</span></label>
-                    <input type="tel" id="emergencyPhone" required placeholder="+1 (555) 123-4567">
-                    <p class="help-text">Include country code</p>
-                </div>
+            <div class="sidenav-divider"></div>
 
-                <div class="form-group">
-                    <label>Alternative Contact Number</label>
-                    <input type="tel" id="emergencyPhone2" placeholder="+1 (555) 987-6543">
-                </div>
+            <button class="sidenav-item" onclick="logout()">
+                <span class="sidenav-icon">🚪</span>
+                <span>Logout</span>
+            </button>
+        </div>
+    </div>
 
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="emergencyEmail" placeholder="sarah.thompson@email.com">
-                </div>
+    <!-- MAIN CONTENT -->
+    <div class="container">
+        <div class="content-wrapper">
+            <div class="header">
+                <h1>🚨 Emergency Contact</h1>
+                <p class="subtitle">Who should we contact in case of emergency?</p>
+            </div>
 
-                <div class="button-container">
-                    <button type="button" class="btn-secondary" onclick="goBack()">← Back</button>
-                    <button type="submit" class="btn-primary">Save & Continue →</button>
-                </div>
-            </form>
+            <div class="form-card">
+                <form id="emergencyForm">
+                    <div class="form-group">
+                        <label>Emergency Contact Name <span class="required">*</span></label>
+                        <input type="text" id="emergencyName" required placeholder="Sarah Thompson">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Relationship <span class="required">*</span></label>
+                        <select id="emergencyRelation" required>
+                            <option value="">Select...</option>
+                            <option value="daughter">Daughter</option>
+                            <option value="son">Son</option>
+                            <option value="spouse">Spouse/Partner</option>
+                            <option value="sibling">Sibling</option>
+                            <option value="parent">Parent</option>
+                            <option value="friend">Friend</option>
+                            <option value="caregiver">Caregiver</option>
+                            <option value="neighbor">Neighbor</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Primary Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="emergencyPhone" required placeholder="+1 (555) 123-4567">
+                        <p class="help-text">Include country code</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Alternative Contact Number</label>
+                        <input type="tel" id="emergencyPhone2" placeholder="+1 (555) 987-6543">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="emergencyEmail" placeholder="sarah.thompson@email.com">
+                    </div>
+
+                    <div class="button-container">
+                        <button type="button" class="btn-secondary" onclick="goBack()">← Back</button>
+                        <button type="submit" class="btn-primary">Save & Continue →</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
     <script>
+        // Load user data
+        const userData = localStorage.getItem('companionmind_user');
+        if (userData) {
+            const user = JSON.parse(userData);
+            document.getElementById('userName').textContent = user.name || 'Welcome!';
+        }
+
         // Load existing data if available
         window.onload = function () {
             const data = JSON.parse(localStorage.getItem('companionmind_emergency') || '{}');
@@ -202,8 +395,36 @@
             window.location.href = 'medical.html';
         };
 
+        // SIDE NAV
+        function toggleSidenav() {
+            const sidenav = document.getElementById('sidenav');
+            const overlay = document.getElementById('sidenavOverlay');
+            sidenav.classList.toggle('open');
+            overlay.classList.toggle('show');
+        }
+
+        function closeSidenav() {
+            document.getElementById('sidenav').classList.remove('open');
+            document.getElementById('sidenavOverlay').classList.remove('show');
+        }
+
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+
         function goBack() {
             window.history.back();
+        }
+
+        function goToHome() {
+            window.location.href = 'index.html';
+        }
+
+        function logout() {
+            if (confirm('Logout?')) {
+                localStorage.clear();
+                window.location.href = 'login.html';
+            }
         }
     </script>
 </body>
